@@ -91,6 +91,7 @@ def ircrypt_decrypt_hook(word, word_eol, userdata):
 
 			pre, message    = string.split(word_eol[0], '>CRY-', 1)
 			number, message = string.split(message, ' ', 1 )
+			message = string.split(message, ' ', 1)[0]
 
 			# Get key for the message buffer
 			buf_key = '%s.%s.%s' % (server, channel, nick)
