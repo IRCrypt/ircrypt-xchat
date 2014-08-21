@@ -329,7 +329,11 @@ def ircrypt_init():
 	global ircrypt_keys, ircrypt_options, ircrypt_ciphers
 
 	# Open config file
-	f = open('%s/ircrypt.conf' % xchat.get_info('xchatdirfs'), 'r')
+	f = None
+	try:
+		f = open('%s/ircrypt.conf' % xchat.get_info('xchatdirfs'), 'r')
+	except:
+		pass
 	if not f :
 		xchat.prnt('Could not open ircrypt.conf.')
 		return xchat.EAT_ALL
