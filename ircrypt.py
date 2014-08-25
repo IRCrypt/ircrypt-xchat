@@ -8,20 +8,20 @@ Add, change or remove key for nick or channel.
 IRCrypt command options:
 
 list                                                 List keys, special ciphers and options
-set-key         [-server <server>] <target> <key>    Set key for target
-remove-key      [-server <server>] <target>          Remove key for target
-set-cipher      [-server <server>] <target> <cipher> Set specific cipher for channel
-remove-cipher   [-server <server>] <target>          Remove specific cipher for channel
-set-option                         <option> <value>  Set an option of IRCrypt
+set-key         [-server <network>] <target> <key>    Set key for target
+remove-key      [-server <network>] <target>          Remove key for target
+set-cipher      [-server <network>] <target> <cipher> Set specific cipher for channel
+remove-cipher   [-server <network>] <target>          Remove specific cipher for channel
+set-option                          <option> <value>  Set an option of IRCrypt
 
 Set the key for a channel:
-  /ircrypt set-key -server orwell.freenet.net #IRCrypt key
+  /ircrypt set-key #IRCrypt key
 Remove the key:
   /ircrypt remove-key #IRCrypt
 Set the key for a user:
   /ircrypt set-key nick key
 Switch to a specific cipher for a channel:
-  /ircrypt set-cipher -server orwell.freenode.net #IRCrypt TWOFISH
+  /ircrypt set-cipher #IRCrypt TWOFISH
 Unset the specific cipher for a channel:
   /ircrypt remove-cipher #IRCrypt
 Set option CIPHER to AES
@@ -79,7 +79,7 @@ def ircrypt_decrypt_hook(word, word_eol, userdata):
 
 	# Get channel and server from context
 	channel = con.get_info('channel')
-	server = con.get_info('server')
+	server = con.get_info('network')
 	nick = word[0]
 	target = '%s/%s' % (server, channel)
 
@@ -148,7 +148,7 @@ def ircrypt_encrypt_hook(word, word_eol, userdata):
 
 	# Get channel and server from context
 	channel = con.get_info('channel')
-	server = con.get_info('server')
+	server = con.get_info('network')
 	target = '%s/%s' % (server, channel)
 	if target in ircrypt_keys:
 
@@ -246,7 +246,7 @@ def ircrypt_command_hook(word, word_eol, userdata):
 		del word[2]
 	else:
 		# Try to determine the server automatically
-		server = con.get_info('server')
+		server = con.get_info('network')
 
 	# All remaining commands need a server name
 	if not server:
