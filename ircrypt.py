@@ -241,7 +241,7 @@ def ircrypt_command_hook(word, word_eol, userdata):
 
 	# Check if a server was set
 	if (len(word) > 3 and word[2] == '-server'):
-		server_name = word[3]
+		server = word[3]
 		del word[3]
 		del word[2]
 	else:
