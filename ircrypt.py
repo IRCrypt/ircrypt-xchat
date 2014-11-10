@@ -229,7 +229,7 @@ def ircrypt_command_hook(word, word_eol, userdata):
 			con.prnt(param)
 			return xchat.EAT_ALL
 		value = ' '.join(word[3:])
-		ircrypt_options[word[2]] = value
+		ircrypt_options[word[2].upper()] = value
 		# Print status message to current context
 		con.prnt('Set option %s to %s' % (word[2], value))
 		return xchat.EAT_ALL
@@ -346,9 +346,9 @@ def ircrypt_init():
 			ircrypt_keys[target] = key[0:-1]
 		else:
 			# Read options
-			if line[0:7] == 'option:':
-				(prefix, option, value) = line.split(':',2)
-				ircrypt_options[option] = value[0:-1]
+			if line.startswith('option:'):
+				(_, option, value) = line.split(':',2)
+				ircrypt_options[option.upper()] = value.rstrip('\n\r')
 			else:
 				# Read special cipher
 				if line[0:7] == 'cipher:':
