@@ -28,11 +28,24 @@ Linux:
       https://raw.githubusercontent.com/IRCrypt/ircrypt-xchat/master/ircrypt.py
 ```
 
-Windows (experimental)
+Windows (using HexChat - experimental)
 
- - Make sure `gpg.exe` or `gpg2.exe` is in your Windows system path
+ - Download the latest stable version of [HexChat](http://hexchat.github.io/downloads.html)
+    - Install HexChat on your system
+    - Make sure to enable the Python support
+    - Select Python 2.7.x as runtime
+ - Download GnuPG vrom <http://gnupg.org> ([direct link](http://mirrors.dotsrc.org/gcrypt/binary/))
+    - Install the application
+    - Find out the path to the `gpg.exe`. Should be something like 
+      `C:\Program Files (x86)\GNU\GnuPG\bin\gpg.exe`
  - Download `https://raw.githubusercontent.com/IRCrypt/ircrypt-xchat/master/ircrypt.py`
- - Copy `ircrypt.py` to `%USERPROFILE%\AppData\Roaming\HexChat\addons`
+    - Save `ircrypt.py` to `%USERPROFILE%\AppData\Roaming\HexChat\addons`
+ - Launch HexChat
+    - Enable the IRCrypt plug-in (if that does not happen automatically)
+    - Join an IRC network and channel. For testing IRCrypt, you might want to
+      join #ircrypt on freenode.
+    - Set the path to the gpg binary by typing
+      `\ircrypt set-option binary C:\Program Files (x86)\GNU\GnuPG\bin\gpg.exe`
 
 
 Configuration
