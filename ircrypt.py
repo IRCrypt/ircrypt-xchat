@@ -69,9 +69,12 @@ def popen(*args, **kwargs):
 	'''Calls subprocess.Popen, injecting the settings to suppress the command
 	shell on Windows.
 	'''
-	startupinfo = subprocess.STARTUPINFO()
-	startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
-	kwargs['startupinfo'] = startupinfo
+	try:
+		startupinfo = subprocess.STARTUPINFO()
+		startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+		kwargs['startupinfo'] = startupinfo
+	except:
+		pass
 	return subprocess.Popen(*args, **kwargs)
 
 
