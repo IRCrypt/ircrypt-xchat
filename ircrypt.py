@@ -65,6 +65,16 @@ class MessageParts:
 		self.modified = time.time()
 
 
+def popen(*args, **kwargs):
+	'''Calls subprocess.Popen, injecting the settings to suppress the command
+	shell on Windows.
+	'''
+	startupinfo = subprocess.STARTUPINFO()
+	startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+	kwargs['startupinfo'] = startupinfo
+	return subprocess.Popen(*args, **kwargs)
+
+
 def ircrypt_decrypt_hook(word, word_eol, userdata):
 
 	global ircrypt_msg_buffer, ircrypt_keys, ircrypt_gpg_binary
@@ -77,7 +87,7 @@ def ircrypt_decrypt_hook(word, word_eol, userdata):
 	# get context
 	con = xchat.get_context()
 
-	# Get channel and server from context
+   # Get channel and server from context
 	channel = con.get_info('channel')
 	server = con.get_info('network')
 	nick = word[0]
@@ -111,7 +121,7 @@ def ircrypt_decrypt_hook(word, word_eol, userdata):
 				pass
 
 			# Decrypt
-			p = subprocess.Popen([ircrypt_gpg_binary, '--batch',  '--no-tty', '--quiet',
+			p = popen([ircrypt_gpg_binary, '--batch',  '--no-tty', '--quiet',
 				'--passphrase-fd', '-', '-d'],
 				stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 			p.stdin.write('%s\n' % key)
@@ -158,10 +168,8 @@ def ircrypt_encrypt_hook(word, word_eol, userdata):
 			cipher = ircrypt_options['CIPHER']
 
 		# encrypt message
-		p = subprocess.Popen([ircrypt_gpg_binary, '--batch',  '--no-tty', '--quiet',
-			'--symmetric', '--cipher-algo',
-			cipher,
-			'--passphrase-fd', '-'],
+		p = popen([ircrypt_gpg_binary, '--batch',  '--no-tty', '--quiet',
+			'--symmetric', '--cipher-algo', cipher, '--passphrase-fd', '-'],
 			stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 		p.stdin.write('%s\n' % ircrypt_keys[target])
 		p.stdin.write(word_eol[0])
@@ -389,7 +397,7 @@ def ircrypt_find_gpg_binary():
 	'''
 	for binary in ('gpg2','gpg'):
 		try:
-			p = subprocess.Popen([binary, '--version'],
+			p = popen([binary, '--version'],
 					stdout=subprocess.PIPE,
 					stderr=subprocess.PIPE)
 			version = p.stdout.read().split('\n',1)[0]
