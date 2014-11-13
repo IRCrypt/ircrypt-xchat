@@ -43,9 +43,9 @@ Windows (using HexChat - experimental)
  - Launch HexChat
     - Enable the IRCrypt plug-in (if that does not happen automatically)
     - Join an IRC network and channel. For testing IRCrypt, you might want to
-      join #ircrypt on freenode.
+      join `#ircrypt` on freenode.
     - Set the path to the gpg binary by typing
-      `\ircrypt set-option binary C:\Program Files (x86)\GNU\GnuPG\bin\gpg.exe`
+      `/ircrypt set-option binary C:\Program Files (x86)\GNU\GnuPG\bin\gpg.exe`
 
 
 Configuration
